@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>任务管理器</title>
+
+<link type="text/css" href="css/style.css" rel="stylesheet" />
+
+</head>
+<body>         
+<div id="box">
+<div class="head">
+	<h2>Todos</h2>
+	<p>罗列日常计划，做一个时间管理大师！</p>
+	<div class="input">
+		<span>内容</span>
+		<input type="text" placeholder="请输入你要做的事" v-model="content"/>
+		<span id='add' @click="sure()">确认</span>
+	</div>
+</div>
+
+<ul class="list" >
+  <li v-if ="nuLL">
+  	暂无数据
+  </li>
+  <li v-for="item in cases" :key="getIndex(item)">
+	<span class="xh">{{item.nub}}</span>
+	<span>{{item.txt}}</span>
+	<span class="qc" @click="cut()"></span>
+  </li>
+	<li>
+		<b>
+			总数：{{num}}
+		</b>
+		<b id='clear' @click="cleaR">清除</b>
+	</li>
+</ul>
+</div>
+<script src="js/vue.js"></script>
+<script>
+var top= new Vue({
+	el:"#box",
+  // 在此处补全代码，实现所需功能
+    data:{
+		cases:[
+
+		],
+		content :"",
+		num:0,
+		nuLL:true,
+
+	},
+    methods:{
+		sure : function(){
+			this.nuLL =false;
+			this.num++;
+            let arr ={
+				nub:this.num,
+				txt:this.content,
+			};
+            this.cases.push(arr)                    //向数组中添加对象
+			this.content ="";
+		},
+		getIndex(item) {
+           return this.cases.indexOf(item);
+       },
+		cut : function(){
+			this.cases.splice(this.getIndex(),1);     //通过当前索引删除对应对象
+			this.num--;
+			if(this.num ===0){
+				this.nuLL = true;
+			}
+		},
+		cleaR(){
+            var newarr = [];
+			this.cases =newarr;
+			this.num = 0;
+		}
+	}
+})
+</script>
+</body>
+</html>
